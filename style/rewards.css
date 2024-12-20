@@ -1,0 +1,98 @@
+/* Rewards 섹션 스타일 */
+#rewards {
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(40, 40, 40, 0.9));
+    padding: 60px 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+/* 섹션 타이틀 */
+#rewards .section-title {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+#rewards .section-title::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 3px;
+    background: #00d8ff;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+#rewards .section-title:hover::after {
+    width: 100px;
+}
+
+/* 리스트 스타일 */
+.rewards-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    gap: 20px;
+}
+
+/* 리스트 항목 */
+.rewards-list li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(30, 30, 30, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* 리스트 아이템 전체 폭 차지 */
+    max-width: 600px; /* 최대 너비 지정 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+/* 호버 효과 */
+.rewards-list li:hover {
+    background: rgba(40, 40, 40, 1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* 아이콘 스타일 */
+.reward-icon {
+    font-size: 2rem;
+    color: #00d8ff;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.rewards-list li:hover .reward-icon {
+    transform: scale(1.1);
+}
+
+/* 텍스트 스타일 */
+.reward-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.reward-details h3 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.reward-details p {
+    font-size: 1rem;
+    color: rgba(200, 200, 200, 0.9);
+    line-height: 1.6;
+}

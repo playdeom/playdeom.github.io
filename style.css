@@ -108,20 +108,24 @@ section {
 }
 
 /* 섹션별 배경 색상 */
-#home {
-    /* 배경은 캔버스의 파티클 애니메이션 */
-}
+/* #home {
+    배경은 캔버스의 파티클 애니메이션
+} */
 
 #about {
     background: rgba(255, 255, 255, 0.05);
 }
 
-#works {
+#rewards{
     background: rgba(255, 255, 255, 0.1);
 }
 
-#contact {
+#works {
     background: rgba(255, 255, 255, 0.05);
+}
+
+#contact {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* 섹션 타이틀 */
