@@ -1,0 +1,100 @@
+/* Contact 섹션 Glassmorphism 배경 */
+#contact {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 60px 20px;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* 배경 패턴 */
+#contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+/* 섹션 제목 */
+#contact .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 3px;
+    position: relative;
+}
+
+#contact .section-title::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.5);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -10px;
+    border-radius: 2px;
+}
+
+/* Contact 아이콘 카드 */
+.contact-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.contact-icon {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+.contact-icon:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.contact-icon svg {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    fill: rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease, fill 0.3s ease;
+}
+
+.contact-icon:hover svg {
+    transform: scale(1.2);
+    fill: rgba(255, 255, 255, 1);
+}
+
+.contact-icon span {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    font-weight: bold;
+}

@@ -262,3 +262,4 @@ window.addEventListener('wheel', function (e) {
 
     lastScrollTop = scrollTop; // 마지막 스크롤 위치 업데이트
 });
+

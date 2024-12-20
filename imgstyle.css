@@ -1,0 +1,58 @@
+.contact-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* 아이콘 간격 조정 */
+    flex-wrap: wrap;
+    margin-top: 20px; /* 아이콘과 제목 간격 */
+}
+
+.contact-icon {
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem; /* 텍스트 크기 통일 */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    width: 80px; /* 아이콘 영역 고정 */
+}
+
+.contact-icon svg {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 8px;
+    transition: transform 0.3s ease;
+}
+
+.contact-icon:hover svg {
+    transform: scale(1.1);
+}
+
+.contact-icon span {
+    font-size: 0.9rem;
+    display: block; /* 텍스트 줄바꿈 */
+    margin-top: 5px;
+}
+
+.tistory {
+    background-color: #fff;
+}
+
+.plat {
+    align-items: center;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    height: 4rem;
+    justify-content: center;
+    width: 4rem;
+}
+
+.contact-icon img {
+    width: 40px; /* 초기 이미지 크기 */
+    height: 40px; /* 초기 이미지 크기 */
+    transition: transform 0.3s ease; /* 호버 시 애니메이션 */
+}
+
+.contact-icon:hover img {
+    transform: scale(1.2); /* 호버 시 확대 */
+}
