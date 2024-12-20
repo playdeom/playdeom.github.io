@@ -142,15 +142,15 @@ const homeSection = document.getElementById('home');
 const observerOptions = {
     root: null,
     rootMargin: '0px',
-    threshold: 0.1
+    threshold: 1.0 // 섹션 전체가 보여질 때만 활성화
 };
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            startAnimation();
+            startAnimation(); // 섹션 전체가 화면에 보일 때 애니메이션 시작
         } else {
-            stopAnimation();
+            stopAnimation(); // 섹션이 화면에서 벗어나면 애니메이션 중지
         }
     });
 }, observerOptions);
