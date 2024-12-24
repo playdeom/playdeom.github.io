@@ -98,3 +98,11 @@
     text-transform: uppercase;
     font-weight: bold;
 }
+
+.contact-icon-dreamhack{
+    transform: scale(2);
+}
+
+.contact-icon-ac{
+    transform: scale(1.5);
+}
