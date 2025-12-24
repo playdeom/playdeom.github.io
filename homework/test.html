@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소앙 조소앙: 삼균주의와 독립의 길</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Warm Historical 
+         Background: #fdfbf7 (Paper)
+         Primary Text: #2c3e50 (Dark Ink)
+         Accent: #c0392b (Muted Red for seal/passion) 
+         Secondary: #7f8c8d (Stone)
+         Highlight: #d35400 (Burnt Orange)
+    -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fdfbf7;
+            color: #2c3e50;
+        }
+        h1, h2, h3, h4, .serif {
+            font-family: 'Noto Serif KR', serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e5e7eb;
+            z-index: 0;
+        }
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+            }
+        }
+        .quote-card {
+            background-image: linear-gradient(135deg, #fdfbf7 0%, #fff 100%);
+            border-left: 4px solid #c0392b;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card-shadow:hover {
+            transform: translateY(-2px);
+        }
+        /* Photo Frame Effect */
+        .photo-frame {
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .historical-filter {
+            filter: sepia(0.3) contrast(1.1); /* Slight sepia for historical feel */
+            transition: filter 0.3s;
+        }
+        .historical-filter:hover {
+            filter: none; /* Restore original colors on hover */
+        }
+    </style>
+    <!-- Application Structure Plan: 
+         Updated: Removed Gallery Section as requested.
+         1. Hero Section: Standard introduction.
+         2. Intro Section: Profile + Portrait (Kept).
+         3. Philosophy Section: Interactive radar chart.
+         4. Timeline Section: Chronological achievements.
+         5. Quotes Section: Famous sayings.
+         6. Legacy Section: Conclusion.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-[#fdfbf7]/95 backdrop-blur-sm border-b border-gray-200">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="text-xl font-bold serif text-[#c0392b] cursor-pointer" onclick="scrollToSection('hero')">소앙 조소앙</div>
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="scrollToSection('intro')" class="nav-btn hover:text-[#c0392b] transition-colors" id="btn-intro">인물 정보</button>
+                    <button onclick="scrollToSection('philosophy')" class="nav-btn hover:text-[#c0392b] transition-colors" id="btn-philosophy">삼균주의</button>
+                    <button onclick="scrollToSection('timeline')" class="nav-btn hover:text-[#c0392b] transition-colors" id="btn-timeline">상세 연보</button>
+                    <button onclick="scrollToSection('quotes')" class="nav-btn hover:text-[#c0392b] transition-colors" id="btn-quotes">어록</button>
+                </div>
+                <!-- Mobile Menu Button (Unicode) -->
+                <button class="md:hidden text-2xl" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#fdfbf7] border-b border-gray-200">
+            <div class="flex flex-col p-4 space-y-3">
+                <button onclick="scrollToSection('intro'); toggleMobileMenu()" class="text-left py-2">인물 정보</button>
+                <button onclick="scrollToSection('philosophy'); toggleMobileMenu()" class="text-left py-2">삼균주의</button>
+                <button onclick="scrollToSection('timeline'); toggleMobileMenu()" class="text-left py-2">상세 연보</button>
+                <button onclick="scrollToSection('quotes'); toggleMobileMenu()" class="text-left py-2">어록</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section id="hero" class="relative py-20 md:py-32 flex items-center justify-center text-center px-4 bg-gradient-to-b from-[#fdfbf7] to-[#f2eee5]">
+            <div class="max-w-4xl">
+                <p class="text-[#c0392b] font-bold tracking-widest mb-4 animate-fade-in">INDEPENDENCE ACTIVIST & THINKER</p>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-[#2c3e50] leading-tight">
+                    대한민국 건국의 설계자<br><span class="text-[#c0392b]">조소앙(趙素昻)</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 serif italic mb-10">
+                    "개인과 민족과 국가의 균등을 통하여<br>세계 일가(世界一家)를 이룩한다."
+                </p>
+                <button onclick="scrollToSection('intro')" class="bg-[#2c3e50] text-white px-8 py-3 rounded-full hover:bg-[#34495e] transition shadow-lg">
+                    상세 기록 보기 ↓
+                </button>
+            </div>
+        </section>
+
+        <!-- Intro Section with Image -->
+        <section id="intro" class="py-20 container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl font-bold mb-12 text-center border-b-2 border-[#c0392b] inline-block pb-2 mx-auto block">인물 정보 (Profile)</h2>
+                
+                <div class="flex flex-col md:flex-row gap-12 items-start">
+                    <!-- Image Card -->
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <div class="photo-frame rotate-1 hover:rotate-0 transition duration-300">
+                            <!-- Local Image URL for Cho So-ang -->
+                            <img src="file.webp" 
+                                 alt="조소앙 선생 초상" 
+                                 class="w-full h-auto object-cover historical-filter"
+                                 onerror="this.src='https://placehold.co/300x400/eee/31343C?text=Cho+So-ang'; this.alt='이미지 로드 실패'">
+                            <div class="mt-2 text-center">
+                                <p class="font-serif font-bold text-lg">소앙 조소앙</p>
+                                <p class="text-xs text-gray-500">1887 - 1958</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Text -->
+                    <div class="w-full md:w-2/3 space-y-8">
+                         <div class="bg-white p-8 rounded-lg card-shadow border-t-4 border-[#2c3e50]">
+                            <h3 class="text-2xl font-bold mb-4 serif">주요 이력</h3>
+                            <ul class="space-y-4 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="mr-3 text-[#c0392b]">🏷️</span>
+                                    <div><strong>본명:</strong> 조용은 (趙鏞殷)</div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-3 text-[#c0392b]">📍</span>
+                                    <div><strong>출생/서거:</strong> 경기도 파주 / 평양 (재북인사묘역 안장)</div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-3 text-[#c0392b]">🎓</span>
+                                    <div><strong>학력:</strong> 일본 메이지 대학 법학부</div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="mr-3 text-[#c0392b]">👨‍👩‍👦‍👦</span>
+                                    <div><strong>가족:</strong> <span class="bg-yellow-100 px-1 rounded font-bold">6형제 독립운동가</span><br><span class="text-sm text-gray-500">조용하, 조용은(소앙), 조용주, 조용한, 조용순, 조용칠 모두 독립운동에 투신한 명문가.</span></div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                            <p class="text-gray-700 leading-relaxed">
+                                조소앙 선생은 단순한 행동가가 아닌 <strong>사상가</strong>였습니다. 그는 대한민국 임시정부의 헌법적 기초인 <span class="font-bold text-[#c0392b]">삼균주의(三均主義)</span>를 창시하여, 정치·경제·교육의 균등을 통한 개인과 민족, 국가의 진정한 자유와 평화를 꿈꾸었습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section REMOVED as per user request -->
+
+        <!-- Philosophy Section -->
+        <section id="philosophy" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto mb-12 text-center">
+                    <span class="text-[#c0392b] font-bold tracking-widest uppercase text-sm">Philosophical Foundation</span>
+                    <h2 class="text-4xl font-bold mb-6 serif">삼균주의 (三均主義) 상세 분석</h2>
+                    <p class="text-lg text-gray-600">
+                        1941년 건국강령에 명시된 내용과 그의 유명한 어록을 통해 사상을 확인해보세요.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+                    <!-- Left: Control & Explanation -->
+                    <div class="space-y-6">
+                        <div class="bg-[#fdfbf7] p-6 rounded-xl border border-gray-200">
+                            <h3 class="text-xl font-bold mb-4 flex items-center">
+                                <span class="bg-[#2c3e50] text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">1</span>
+                                균등의 대상 선택
+                            </h3>
+                            <div class="grid grid-cols-3 gap-2 mb-6">
+                                <button onclick="updatePhilosophy('individual')" id="btn-individual" class="p-3 rounded-lg border-2 border-[#2c3e50] bg-[#2c3e50] text-white font-bold transition">개인(個人)</button>
+                                <button onclick="updatePhilosophy('nation')" id="btn-nation" class="p-3 rounded-lg border-2 border-gray-300 text-gray-600 hover:border-[#2c3e50] transition">민족(民族)</button>
+                                <button onclick="updatePhilosophy('state')" id="btn-state" class="p-3 rounded-lg border-2 border-gray-300 text-gray-600 hover:border-[#2c3e50] transition">국가(國家)</button>
+                            </div>
+                            
+                            <div id="philosophy-content" class="bg-white p-6 rounded-lg shadow-inner min-h-[220px]">
+                                <h4 class="text-2xl font-bold text-[#c0392b] mb-3 serif" id="philo-title">개인과 개인의 균등</h4>
+                                <p class="text-gray-700 leading-relaxed mb-4" id="philo-desc">
+                                    "정치, 경제, 교육의 균등을 통하여 개인의 자유와 평등을 실현한다."
+                                </p>
+                                <div id="philo-details" class="text-sm text-gray-600 bg-yellow-50 p-4 rounded border-l-4 border-yellow-400">
+                                    <strong>"사람마다 우유 한 병씩 먹고 집 한 채씩 가지고 살게 하오리다."</strong><br>
+                                    <span class="text-xs text-gray-400 mt-1 block">- 1946년 3.1절 기념사 중 (경제적 균등의 구체적 묘사)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#fdfbf7] p-6 rounded-xl border border-gray-200">
+                             <h3 class="text-xl font-bold mb-2 flex items-center">
+                                <span class="bg-[#2c3e50] text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span>
+                                사상의 현대적 의의
+                            </h3>
+                             <p class="text-gray-600 text-sm">
+                                 삼균주의는 당시 자본주의와 공산주의의 폐해를 모두 극복하고자 했던 <strong>'제3의 길'</strong>이었습니다. 이는 대한민국 헌법 제119조(경제 민주화) 등의 사상적 뿌리가 되었습니다.
+                             </p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Visualization (Chart.js) -->
+                    <div class="flex flex-col items-center justify-center h-full">
+                        <div class="w-full max-w-md bg-white p-4 rounded-xl shadow-lg border border-gray-100">
+                            <h4 class="text-center font-bold mb-2 text-gray-500 text-sm">삼균주의 이상적 균형 모델</h4>
+                            <!-- Chart Container -->
+                            <div class="chart-container">
+                                <canvas id="samgyunChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- 3 Rights Breakdown -->
+                        <div id="three-rights-panel" class="mt-6 w-full grid grid-cols-3 gap-2">
+                            <div class="text-center p-2 bg-gray-50 rounded cursor-help group relative" title="정치적 균등">
+                                <div class="text-2xl mb-1">🗳️</div>
+                                <div class="font-bold text-sm">균정(均政)</div>
+                                <div class="text-xs text-gray-500">보통선거</div>
+                            </div>
+                            <div class="text-center p-2 bg-gray-50 rounded cursor-help group relative" title="경제적 균등">
+                                <div class="text-2xl mb-1">⚖️</div>
+                                <div class="font-bold text-sm">균리(均利)</div>
+                                <div class="text-xs text-gray-500">토지/산업 국유화</div>
+                            </div>
+                            <div class="text-center p-2 bg-gray-50 rounded cursor-help group relative" title="교육적 균등">
+                                <div class="text-2xl mb-1">🏫</div>
+                                <div class="font-bold text-sm">균학(均學)</div>
+                                <div class="text-xs text-gray-500">국비 의무교육</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="py-20 bg-[#fdfbf7]">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto mb-16 text-center">
+                    <h2 class="text-4xl font-bold mb-6 serif">상세 연보 (Chronology)</h2>
+                    <p class="text-lg text-gray-600">
+                        잘 알려지지 않은 국제 외교 활동과 해방 후의 정치적 행보를 포함했습니다.
+                    </p>
+                </div>
+
+                <div class="relative max-w-4xl mx-auto">
+                    <div class="timeline-line"></div>
+
+                    <!-- Timeline Item 1 -->
+                    <div class="relative mb-12 md:mb-20">
+                        <div class="md:flex items-center justify-between group">
+                            <div class="md:w-5/12 mb-4 md:mb-0 text-right pr-8 md:text-right hidden md:block">
+                                <h3 class="text-2xl font-bold text-[#c0392b] serif">태동기</h3>
+                                <p class="text-gray-500">1917 ~ 1919</p>
+                            </div>
+                            <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-[#c0392b] rounded-full border-4 border-white shadow z-10 flex items-center justify-center text-white text-xs font-bold">1</div>
+                            <div class="md:w-5/12 pl-12 md:pl-8">
+                                <div class="block md:hidden mb-2"><span class="text-xl font-bold text-[#c0392b] serif">1917~1919</span></div>
+                                <div class="bg-white p-6 rounded-lg card-shadow hover:bg-gray-50 transition">
+                                    <ul class="space-y-3">
+                                        <li class="text-sm text-gray-700"><strong>1917.07:</strong> 상하이에서 <b>대동단결선언</b> 기초. (국민주권론 제창)</li>
+                                        <li class="text-sm text-gray-700"><strong>1919.02:</strong> 도쿄 <b>2.8 독립선언서</b> 작성.</li>
+                                        <li class="text-sm text-gray-700"><strong>1919.04:</strong> 임시정부 수립 참여, 임시헌장 기초.</li>
+                                        <li class="text-sm text-gray-700 bg-yellow-50 p-2 rounded"><strong>1919.08:</strong> <b>국제사회당(Socialist International)</b> 대회 참석(유럽). 한국 독립 승인 결의안 통과를 이끌어냄. (외교적 쾌거)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div class="relative mb-12 md:mb-20">
+                        <div class="md:flex items-center justify-between flex-row-reverse group">
+                            <div class="md:w-5/12 mb-4 md:mb-0 text-left pl-8 hidden md:block">
+                                <h3 class="text-2xl font-bold text-[#2c3e50] serif">이념 정립기</h3>
+                                <p class="text-gray-500">1930 ~ 1940</p>
+                            </div>
+                            <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-[#2c3e50] rounded-full border-4 border-white shadow z-10 flex items-center justify-center text-white text-xs font-bold">2</div>
+                            <div class="md:w-5/12 pl-12 md:pr-8 md:pl-0 md:text-right">
+                                <div class="block md:hidden mb-2"><span class="text-xl font-bold text-[#2c3e50] serif">1930~1940</span></div>
+                                <div class="bg-white p-6 rounded-lg card-shadow hover:bg-gray-50 transition text-left">
+                                    <ul class="space-y-3">
+                                        <li class="text-sm text-gray-700"><strong>1930.01:</strong> 한국독립당 창당, 삼균주의를 당의로 채택.</li>
+                                        <li class="text-sm text-gray-700"><strong>1940.05:</strong> 3당 합당으로 한국독립당 재창당.</li>
+                                        <li class="text-sm text-gray-700"><strong>1941.11:</strong> <b>대한민국 건국강령</b> 반포. (임시정부의 헌법적 위상 정립)</li>
+                                        <li class="text-sm text-gray-700"><strong>1941.12:</strong> 대일 선전성명서 발표.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3 -->
+                    <div class="relative mb-12 md:mb-20">
+                        <div class="md:flex items-center justify-between group">
+                            <div class="md:w-5/12 mb-4 md:mb-0 text-right pr-8 hidden md:block">
+                                <h3 class="text-2xl font-bold text-[#2c3e50] serif">해방과 정치</h3>
+                                <p class="text-gray-500">1945 ~ 1950</p>
+                            </div>
+                            <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-[#2c3e50] rounded-full border-4 border-white shadow z-10 flex items-center justify-center text-white text-xs font-bold">3</div>
+                            <div class="md:w-5/12 pl-12 md:pl-8">
+                                <div class="block md:hidden mb-2"><span class="text-xl font-bold text-[#2c3e50] serif">1945~1950</span></div>
+                                <div class="bg-white p-6 rounded-lg card-shadow hover:bg-gray-50 transition">
+                                     <ul class="space-y-3">
+                                        <li class="text-sm text-gray-700"><strong>1945.12:</strong> 임시정부 요인 제2진으로 환국.</li>
+                                        <li class="text-sm text-gray-700"><strong>1948.04:</strong> 김구와 함께 남북협상 참여 (평양). 단독정부 수립 반대.</li>
+                                        <li class="text-sm text-gray-700"><strong>1948.12:</strong> <b>사회당(Socialist Party)</b> 창당.</li>
+                                        <li class="text-sm text-gray-700 bg-blue-50 p-2 rounded"><strong>1950.05:</strong> 제2대 국회의원 선거(서울 성북구). 조봉암 등을 꺾고 <b>전국 최다 득표</b>로 당선. (그의 높은 대중적 지지를 증명)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 4 -->
+                     <div class="relative">
+                        <div class="md:flex items-center justify-between flex-row-reverse group">
+                            <div class="md:w-5/12 mb-4 md:mb-0 text-left pl-8 hidden md:block">
+                                <h3 class="text-2xl font-bold text-gray-400 serif">납북과 서거</h3>
+                                <p class="text-gray-400">1950 ~ 1958</p>
+                            </div>
+                            <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-gray-400 rounded-full border-4 border-white shadow z-10 flex items-center justify-center text-white text-xs font-bold">4</div>
+                            <div class="md:w-5/12 pl-12 md:pr-8 md:pl-0 md:text-right">
+                                <div class="block md:hidden mb-2"><span class="text-xl font-bold text-gray-400 serif">납북과 서거</span></div>
+                                <div class="bg-white p-6 rounded-lg card-shadow hover:bg-gray-50 transition text-left opacity-90">
+                                    <ul class="space-y-3">
+                                        <li class="text-sm text-gray-700"><strong>1950.09:</strong> 6.25 전쟁 중 서울에서 납북됨.</li>
+                                        <li class="text-sm text-gray-700"><strong>1958.09.10:</strong> 평양에서 71세로 서거.</li>
+                                        <li class="text-sm text-gray-700"><strong>묘소:</strong> 평양 신미리 재북인사묘역.</li>
+                                        <li class="text-sm text-gray-700"><strong>1989:</strong> 대한민국 건국훈장 대한민국장 추서.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quotes Section -->
+        <section id="quotes" class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-6 serif">소앙 어록 (Quotes)</h2>
+                    <p class="text-lg text-gray-600">그의 육성과 글에 담긴 결의를 느껴보세요.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="quote-card p-8 rounded-xl shadow-sm transform hover:-translate-y-1 transition duration-300">
+                        <div class="text-4xl text-[#c0392b] mb-4">❝</div>
+                        <p class="text-lg font-serif font-bold text-gray-800 mb-4 leading-relaxed">
+                            "사람마다 우유 한 병씩 먹고<br>집 한 채씩 가지고 살게 하오리다."
+                        </p>
+                        <p class="text-sm text-gray-500 text-right">- 1946년 3.1절 기념사 중 (가장 유명한 어록)</p>
+                    </div>
+
+                    <div class="quote-card p-8 rounded-xl shadow-sm transform hover:-translate-y-1 transition duration-300">
+                        <div class="text-4xl text-[#c0392b] mb-4">❝</div>
+                        <p class="text-lg font-serif font-bold text-gray-800 mb-4 leading-relaxed">
+                            "만일 독립을 이루지 못하게 되면<br>나의 몸을 불에 태워 죽이어 주시오."
+                        </p>
+                        <p class="text-sm text-gray-500 text-right">- 조국 광복을 향한 맹세</p>
+                    </div>
+
+                    <div class="quote-card p-8 rounded-xl shadow-sm md:col-span-2 transform hover:-translate-y-1 transition duration-300">
+                        <div class="text-4xl text-[#c0392b] mb-4">❝</div>
+                        <p class="text-lg font-serif font-bold text-gray-800 mb-4 leading-relaxed text-center">
+                            "우리는 남의 것을 빼앗지도 말고,<br>우리의 것을 빼앗기지도 말자."
+                        </p>
+                        <p class="text-sm text-gray-500 text-center">- 평등과 자주의 정신</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legacy Section -->
+        <section id="legacy" class="py-20 bg-[#fdfbf7] border-t border-gray-200">
+            <div class="container mx-auto px-4">
+                 <div class="max-w-4xl mx-auto text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-6 serif">오늘날의 유산 (Legacy)</h2>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white p-8 rounded-xl text-center border border-gray-100 hover:border-[#c0392b] transition duration-300 shadow-sm">
+                        <div class="text-4xl mb-4">📜</div>
+                        <h3 class="text-xl font-bold mb-3 serif">헌법의 아버지</h3>
+                        <p class="text-gray-600 text-sm">
+                            1948년 제헌 헌법은 조소앙이 기초한 건국강령을 계승했습니다. 특히 <strong>경제적 균등</strong> 조항은 그의 사상이 깊게 반영된 결과입니다.
+                        </p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl text-center border border-gray-100 hover:border-[#c0392b] transition duration-300 shadow-sm">
+                        <div class="text-4xl mb-4">🗳️</div>
+                        <h3 class="text-xl font-bold mb-3 serif">민주적 정치가</h3>
+                        <p class="text-gray-600 text-sm">
+                            2대 총선에서 <strong>전국 최다 득표</strong>를 기록하며 대중적 지지를 증명했습니다. 이론가에 머물지 않고 현실 정치에 깊이 참여했습니다.
+                        </p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl text-center border border-gray-100 hover:border-[#c0392b] transition duration-300 shadow-sm">
+                        <div class="text-4xl mb-4">🌍</div>
+                        <h3 class="text-xl font-bold mb-3 serif">자주 외교의 선구자</h3>
+                        <p class="text-gray-600 text-sm">
+                            1919년 국제사회당 대회 등에서 한국 독립을 승인받는 등, 무장 투쟁과 더불어 <strong>외교전</strong>의 최전선에서 활약했습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-12 border-t border-gray-200">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="font-bold serif text-xl mb-4 text-[#2c3e50]">소앙 조소앙 (1887~1958)</h2>
+            <div class="flex justify-center space-x-4 mb-6">
+                <span class="text-sm text-gray-500">독립운동가</span>
+                <span class="text-sm text-gray-500">정치가</span>
+                <span class="text-sm text-gray-500">사상가</span>
+            </div>
+            <p class="text-xs text-gray-400 mb-2">
+                참고: 《대한민국 건국강령》(1941), 나무위키, 한국민족문화대백과<br>
+                이미지 출처: 위키미디어 공용 (Public Domain)
+            </p>
+            <p class="text-xs text-gray-400">
+                &copy; 2024 Cho So-ang Biography Interactive Report.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data Handling ---
+        const philosophyData = {
+            individual: {
+                title: "개인과 개인의 균등 (균정/균리/균학)",
+                desc: "모든 사람은 정치, 경제, 교육적으로 평등해야 합니다. 이는 특권 계급 타파와 만인의 평등을 지향합니다.",
+                details: "구체적 방안: <br>1. <strong>균정(均政)</strong>: 보통선거제 (Political Equality)<br>2. <strong>균리(均利)</strong>: '사람마다 우유 한 병, 집 한 채' (Economic Equality)<br>3. <strong>균학(均學)</strong>: 국비 의무교육 (Educational Equality)",
+                chartLabel: "개인적 평등 요소",
+                chartData: [100, 100, 100], 
+                chartLabels: ["균정권 (보통선거)", "균리권 (경제평등)", "균학권 (의무교육)"]
+            },
+            nation: {
+                title: "민족과 민족의 균등 (민족자결)",
+                desc: "민족 자결주의에 입각하여 어떤 민족도 다른 민족을 억압하거나 침략하지 않는 평등한 관계를 의미합니다.",
+                details: "핵심 원칙: <br>- 식민지 지배 철폐<br>- 민족 단위의 주권 행사<br>- 민족 간 상호 불가침",
+                chartLabel: "민족적 평등 요소",
+                chartData: [100, 100, 100],
+                chartLabels: ["민족 자결", "상호 존중", "침략 배격"]
+            },
+            state: {
+                title: "국가와 국가의 균등 (국제평화)",
+                desc: "제국주의적 침략 전쟁을 반대하고, 독립 국가 간의 평화로운 공존과 협력을 추구하는 세계 평화 사상입니다.",
+                details: "핵심 원칙: <br>- 반제국주의<br>- 평화 공존<br>- 국제 연맹/연합을 통한 협력",
+                chartLabel: "국가적 평등 요소",
+                chartData: [100, 100, 100],
+                chartLabels: ["주권 존중", "반제국주의", "국제 협력"]
+            }
+        };
+
+        let myChart = null;
+
+        // --- Core Interactions ---
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function updatePhilosophy(type) {
+            const data = philosophyData[type];
+            
+            const titleEl = document.getElementById('philo-title');
+            const descEl = document.getElementById('philo-desc');
+            const detailEl = document.getElementById('philo-details');
+            
+            titleEl.style.opacity = 0;
+            descEl.style.opacity = 0;
+            
+            setTimeout(() => {
+                titleEl.textContent = data.title;
+                descEl.textContent = data.desc;
+                detailEl.innerHTML = data.details; 
+                titleEl.style.opacity = 1;
+                descEl.style.opacity = 1;
+            }, 200);
+
+            const buttons = ['individual', 'nation', 'state'];
+            buttons.forEach(btnType => {
+                const btn = document.getElementById(`btn-${btnType}`);
+                if (btnType === type) {
+                    btn.classList.remove('border-gray-300', 'text-gray-600', 'bg-white');
+                    btn.classList.add('border-[#2c3e50]', 'bg-[#2c3e50]', 'text-white');
+                } else {
+                    btn.classList.add('border-gray-300', 'text-gray-600', 'bg-white');
+                    btn.classList.remove('border-[#2c3e50]', 'bg-[#2c3e50]', 'text-white');
+                }
+            });
+
+            updateChart(data.chartLabels, data.chartLabel);
+
+            const rightsPanel = document.getElementById('three-rights-panel');
+            if (type === 'individual') {
+                rightsPanel.classList.remove('hidden');
+                rightsPanel.classList.add('grid');
+            } else {
+                rightsPanel.classList.add('hidden');
+                rightsPanel.classList.remove('grid');
+            }
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('samgyunChart').getContext('2d');
+            Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+            Chart.defaults.color = '#666';
+
+            myChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: philosophyData.individual.chartLabels,
+                    datasets: [{
+                        label: '이상적 균형 (Ideal)',
+                        data: [100, 100, 100],
+                        fill: true,
+                        backgroundColor: 'rgba(192, 57, 43, 0.2)', 
+                        borderColor: 'rgb(192, 57, 43)',
+                        pointBackgroundColor: 'rgb(192, 57, 43)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(192, 57, 43)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: { borderWidth: 3 }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: { display: true },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function updateChart(labels, labelText) {
+            if (!myChart) return;
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].label = labelText;
+            myChart.update();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+        });
+
+    </script>
+</body>
+</html>
