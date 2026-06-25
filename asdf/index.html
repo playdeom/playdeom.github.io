@@ -2,14 +2,24 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="소스-필터 이론 시각화 — 성대 소스 신호가 성도 필터를 통과하여 모음 소리로 변환되는 과정을 실시간으로 확인합니다." />
     <title>Source-Filter Theory Visualizer</title>
-    <script type="module" crossorigin src="/assets/index-BAmPp4W0.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-ByaMi_pL.css">
+    <script type="module" crossorigin src="./assets/index-BtRgLelo.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-ByaMi_pL.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="file-protocol-warning" hidden style="max-width: 720px; margin: 80px auto; padding: 24px; color: #e4e4f0; background: #0c0c1a; border: 1px solid #7b2ff7; border-radius: 12px; font-family: sans-serif; line-height: 1.6;">
+        <h1 style="margin: 0 0 12px; font-size: 24px;">웹 서버로 실행해야 합니다</h1>
+        <p style="margin: 0;">이 프로젝트는 ES 모듈과 Web Audio API를 사용하므로 index.html 파일을 직접 열 수 없습니다. VS Code에서 <strong>Open with Live Server</strong>를 사용하세요.</p>
+      </div>
+    </div>
+    <script>
+      if (window.location.protocol === 'file:') {
+        document.getElementById('file-protocol-warning').hidden = false;
+      }
+    </script>
   </body>
 </html>
